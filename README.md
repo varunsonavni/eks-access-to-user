@@ -94,3 +94,8 @@ This guide outlines the steps to create a role for another AWS account inside an
 ```
 Note:  **Here IAM Roles or Users is used for authentication & cluster role & binding are used for Authorization**
 
+
+References:
+
+1) https://youtu.be/cB0fCMPIj1Y?si=WcQMffMsDySruTZk
+2) https://github.com/kubernetes-sigs/aws-iam-authenticator#how-does-it-work
