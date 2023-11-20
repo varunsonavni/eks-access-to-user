@@ -91,4 +91,6 @@ This guide outlines the steps to create a role for another AWS account inside an
          username: cluster-admin
        - userarn: arn:aws:iam::00000000000:user/eks-developer
          username: dev-view-role
+```
+Note:  **Here IAM Roles or Users is used for authentication & cluster role & binding are used for Authorization **
 
