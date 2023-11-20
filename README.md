@@ -71,7 +71,7 @@ This guide outlines the steps to create a role for another AWS account inside an
 ```
 ## AWS IAM Role Setup (For User Based access to EKS from AWS IAM USER)
 
-4.2. **Editing aws-auth configmap in Kubernetes (under mapUsers):**
+**4.2. Editing aws-auth configmap in Kubernetes (under mapUsers):**
 
    ```yaml
    apiVersion: v1
@@ -92,5 +92,5 @@ This guide outlines the steps to create a role for another AWS account inside an
        - userarn: arn:aws:iam::00000000000:user/eks-developer
          username: dev-view-role
 ```
-Note:  **Here IAM Roles or Users is used for authentication & cluster role & binding are used for Authorization **
+Note:  **Here IAM Roles or Users is used for authentication & cluster role & binding are used for Authorization**
 
