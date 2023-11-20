@@ -43,7 +43,7 @@ This guide outlines the steps to create a role for another AWS account inside an
      apiGroup: rbac.authorization.k8s.io
    ---
 
-4.1. **Editing aws-auth configmap in Kubernetes:**
+4.1. **Editing aws-auth configmap in Kubernetes (under mapRoles):**
 
    ```yaml
 
@@ -71,7 +71,7 @@ This guide outlines the steps to create a role for another AWS account inside an
 ```
 ## AWS IAM Role Setup (For User Based access to EKS from AWS IAM USER)
 
-4.2. **Editing aws-auth configmap in Kubernetes (under map):**
+4.2. **Editing aws-auth configmap in Kubernetes (under mapUsers):**
 
    ```yaml
    apiVersion: v1
