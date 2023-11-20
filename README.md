@@ -17,6 +17,7 @@ This guide outlines the steps to create a role for another AWS account inside an
 3. **Create Kubernetes Role:**
 
    ```yaml
+   ---
    apiVersion: rbac.authorization.k8s.io/v1
    kind: Role
    metadata:
@@ -26,25 +27,68 @@ This guide outlines the steps to create a role for another AWS account inside an
      - apiGroups: [""]
        resources: ["pods", "pods/log"]
        verbs: ["get", "list", "watch"]
+   ---
+   apiVersion: rbac.authorization.k8s.io/v1
+   kind: RoleBinding
+   metadata:
+     name: dev-view-role-binding
+     namespace: converj
+   subjects:
+     - kind: User
+       name: dev-view-role
+       apiGroup: rbac.authorization.k8s.io
+   roleRef:
+     kind: Role
+     name: dev-view-role
+     apiGroup: rbac.authorization.k8s.io
+   ---
 
-3. **Editing aws-auth configmap in Kubernetes:**
+4.1. **Editing aws-auth configmap in Kubernetes:**
 
    ```yaml
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: RoleBinding
-    metadata:
-      name: dev-view-role-binding
-      namespace: converj
-    subjects:
-      - kind: User
-        name: dev-view-role
-        apiGroup: rbac.authorization.k8s.io
-    roleRef:
-      kind: Role
-      name: dev-view-role
-      apiGroup: rbac.authorization.k8s.io
 
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: aws-auth
+     namespace: kube-system
+   data:
+     mapRoles: |
+       - groups:
+         - system:bootstrappers
+         - system:nodes
+         rolearn: arn:aws:iam::00000000000:role/eks-managed-ng-converj-dev
+         username: system:node:{{EC2PrivateDNSName}}
+       - groups:
+         - system:masters
+         rolearn: arn:aws:iam::00000000000:role/OrganizationAccountAccessRole
+         username: cluster-admin
+       - groups:
+         - dev-view-access-group
+         rolearn: arn:aws:iam::00000000000:role/OrganizationReadOnlyAccessRole
+         username: dev-view-role
 
-
-
+```
 ## AWS IAM Role Setup (For User Based access to EKS from AWS IAM USER)
+
+4.2. **Editing aws-auth configmap in Kubernetes (under map):**
+
+   ```yaml
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: aws-auth
+     namespace: kube-system
+   data:
+     mapRoles: |
+       - groups:
+         - system:bootstrappers
+         - system:nodes
+         rolearn: arn:aws:iam::00000000000:role/eksctl-robin-personal-cluster-nod-NodeInstanceRole-TUKH4Z187ANC
+         username: system:node:{{EC2PrivateDNSName}}
+     mapUsers: |
+       - userarn: arn:aws:iam::00000000000:user/eks-trainee
+         username: eks-trainee
+       - userarn: arn:aws:iam::00000000000:user/eks-developer
+         username: eks-developer
+
