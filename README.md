@@ -88,7 +88,7 @@ This guide outlines the steps to create a role for another AWS account inside an
          username: system:node:{{EC2PrivateDNSName}}
      mapUsers: |
        - userarn: arn:aws:iam::00000000000:user/eks-trainee
-         username: eks-trainee
+         username: cluster-admin
        - userarn: arn:aws:iam::00000000000:user/eks-developer
-         username: eks-developer
+         username: dev-view-role
 
